@@ -3,9 +3,9 @@
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
-class Flush extends Command
+class Clear extends Command
 {
-    protected $signature = 'modelCache:flush {--model=}';
+    protected $signature = 'modelCache:clear {--model=}';
     protected $description = 'Flush cache for a given model. If no model is given, entire model-cache is flushed.';
 
     public function handle()
@@ -49,6 +49,7 @@ class Flush extends Command
         return 0;
     }
 
+    /** @SuppressWarnings(PHPMD.BooleanArgumentFlag) */
     protected function getAllTraitsUsedByClass(
         string $classname,
         bool $autoload = true

@@ -1,5 +1,6 @@
 <?php namespace GeneaLabs\LaravelModelCaching\Traits;
 
+use Carbon\Carbon;
 use GeneaLabs\LaravelModelCaching\CachedBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
@@ -27,6 +28,7 @@ trait ModelCaching
         static::deleted(function ($instance) {
             $instance->checkCooldownAndFlushAfterPersiting($instance);
         });
+
         static::saved(function ($instance) {
             $instance->checkCooldownAndFlushAfterPersiting($instance);
         });
@@ -89,7 +91,7 @@ trait ModelCaching
         $cacheKey = "{$cachePrefix}:{$modelClassName}-cooldown:invalidated-at";
         $this->cache()
             ->rememberForever($cacheKey, function () {
-                return now();
+                return (new Carbon)->now();
             });
 
         return $query;

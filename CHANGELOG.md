@@ -4,7 +4,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.2.51] - 51 Mar 2018
+## [0.2.59] - 27 May 2018
+### Fixed
+- caching of queries with `whereNotIn` clauses.
+
+### Updated
+- readme to specify that lazy-loaded relationships are currently not cached.
+
+## [0.2.58] - 24 May 2018
+### Fixed
+- caching of queries with `whereIn` clauses.
+
+## [0.2.57] - 19 May 2018
+### Added
+- database name to cache keys and tags to help with multi-tenancy use-cases.
+
+### Fixed
+- `find()` using array parameter.
+
+## [0.2.56] - 12 May 2018
+### Fixed
+- nested `whereNull` within `whereHas`.
+
+## [0.2.55] - 6 May 2018
+### Fixed
+- caching of `between` where clauses.
+- test cache keys and brought them back to green.
+
+## [0.2.54] - 6 May 2018
+### Fixed
+- caching of query parameter bindings.
+
+## [0.2.53] - 6 May 2018
+### Fixed
+- `->inRandomOrder()` to not cache the query.
+
+## [0.2.52] - 21 Mar 2018
+### Changed
+- `flush` console command to be called `clear`, to match other laravel commands.
+
+### Fixed
+- implementation of `count()` method.
+
+## [0.2.51] - 10 Mar 2018
 ### Added
 - disabling of `all()` query.
 

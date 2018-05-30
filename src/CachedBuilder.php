@@ -3,6 +3,7 @@
 use GeneaLabs\LaravelModelCaching\Traits\BuilderCaching;
 use GeneaLabs\LaravelModelCaching\Traits\Caching;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Support\Collection;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -23,13 +24,13 @@ class CachedBuilder extends EloquentBuilder
         return $this->cachedValue(func_get_args(), $cacheKey);
     }
 
-    public function count($columns = ["*"])
+    public function count($columns = "*")
     {
         if (! $this->isCachable()) {
             return parent::count($columns);
         }
 
-        $cacheKey = $this->makeCacheKey($columns, null, "-count");
+        $cacheKey = $this->makeCacheKey([$columns], null, "-count");
 
         return $this->cachedValue(func_get_args(), $cacheKey);
     }
@@ -51,7 +52,8 @@ class CachedBuilder extends EloquentBuilder
             return parent::find($id, $columns);
         }
 
-        $cacheKey = $this->makeCacheKey($columns, null, "-find_{$id}");
+        $idKey = collect($id)->implode('-');
+        $cacheKey = $this->makeCacheKey($columns, null, "-find_{$idKey}");
 
         return $this->cachedValue(func_get_args(), $cacheKey);
     }
@@ -76,6 +78,13 @@ class CachedBuilder extends EloquentBuilder
         $cacheKey = $this->makeCacheKey($columns);
 
         return $this->cachedValue(func_get_args(), $cacheKey);
+    }
+
+    public function inRandomOrder($seed = '')
+    {
+        $this->isCachable = false;
+
+        return parent::inRandomOrder($seed);
     }
 
     public function insert(array $values)
@@ -117,7 +126,7 @@ class CachedBuilder extends EloquentBuilder
             return parent::paginate($perPage, $columns, $pageName, $page);
         }
 
-        $page = request("page", $page ?: 1);
+        $page = request("page[number]", $page ?: 1);
         $cacheKey = $this->makeCacheKey($columns, null, "-paginate_by_{$perPage}_{$pageName}_{$page}");
 
         return $this->cachedValue(func_get_args(), $cacheKey);
