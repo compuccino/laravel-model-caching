@@ -4,7 +4,7 @@ trait CachePrefixing
 {
     protected function getCachePrefix() : string
     {
-        return "genealabs:laravel-model-caching:"
+        return "compuccino:laravel-model-caching:"
             . $this->getDatabaseConnectionName() . ":"
             . $this->getDatabaseName() . ":"
             . (config("laravel-model-caching.cache-prefix")
