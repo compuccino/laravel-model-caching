@@ -126,7 +126,7 @@ class CachedBuilder extends EloquentBuilder
             return parent::paginate($perPage, $columns, $pageName, $page);
         }
 
-        $page = request("page", $page ?: 1);
+        $page = request("page[number]", $page ?: 1);
         $cacheKey = $this->makeCacheKey($columns, null, "-paginate_by_{$perPage}_{$pageName}_{$page}");
 
         return $this->cachedValue(func_get_args(), $cacheKey);
